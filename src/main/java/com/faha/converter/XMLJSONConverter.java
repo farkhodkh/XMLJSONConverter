@@ -34,21 +34,38 @@ public class XMLJSONConverter {
         return JSONData;
     }
 
-    private static void writeUsingBufferedWriter(String data, int noOfLines, String fileName) {
+    private static String ConvertJSONtoXML(String fileName){
+        String XMLData = "";
+        try {
+            File file = new File(fileName);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line;
+            String jsonString = "";
+            while((line = bufferedReader.readLine()) != null){
+                jsonString = jsonString + line;
+            }
+            org.json.JSONObject jsonFileObject = new org.json.JSONObject(jsonString);
+            XMLData = org.json.XML.toString(jsonFileObject);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return XMLData;
+    }
+
+    private static void writeUsingBufferedWriter(String data, String fileName) {
         File file = new File(fileName);
         FileWriter fr = null;
         BufferedWriter br = null;
-        int bufferSize = 1;
-        //String dataWithNewLine = data + System.getProperty("line.separator");
+        int bufferSize = 1024;
         try{
             fr = new FileWriter(file);
             br = new BufferedWriter(fr, bufferSize);
             br.write(data);
-//             for(int i = noOfLines; i>0; i--){
-
-//                br.write(dataWithNewLine);
-
-//            }
         } catch (IOException e) {
             e.printStackTrace();
         }finally{
@@ -62,8 +79,15 @@ public class XMLJSONConverter {
     }
 
     public static void main(String[] args) {
-        String JSONData = ConvertXMLtoJSON(args[0]);
-        JSONData.length();
-        writeUsingBufferedWriter(JSONData, 1, args[1]);
+        String val = args[0];
+        if(val.equals("0")){
+            String JSONData = ConvertXMLtoJSON(args[1]);
+            writeUsingBufferedWriter(JSONData, args[2]);
+        }else if (val.equals("1")){
+            String XMLData = ConvertJSONtoXML(args[1]);
+            writeUsingBufferedWriter(XMLData, args[2]);
+        }else {
+            System.out.println("Wrong argument 1");
+        }
     }
 }
