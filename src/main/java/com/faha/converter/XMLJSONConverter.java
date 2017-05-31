@@ -2,16 +2,21 @@ package com.faha.converter;
 
 import org.json.JSONObject;
 import org.json.XML;
-
 import java.io.*;
 
-//import java.io.FileReader;
-
 /**
- * Created by Администратор on 24.05.2017.
+ * Created by faha on 24.05.2017.
+ * the class converts XML to JSON and reverse
+ * IN   - type of conversion 0 - XML to JSON, 1 - JSON to XML
+ *      - inFileName - file full name to be converted
+ *      - outFileName - file full name where converted data will be written
  */
 public class XMLJSONConverter {
-
+    /*
+        The method converts XML file into JSON
+        IN - "fileName" xml file full name, String
+        OUT - json data, String
+    */
     public static String ConvertXMLtoJSON(String fileName) {
         String JSONData = "";
         try{
@@ -33,7 +38,11 @@ public class XMLJSONConverter {
 
         return JSONData;
     }
-
+    /*
+        The method converts JSON file into XML
+        IN - "fileName" json file full name, String
+        OUT - xml data, String
+    */
     private static String ConvertJSONtoXML(String fileName){
         String XMLData = "";
         try {
@@ -56,7 +65,12 @@ public class XMLJSONConverter {
 
         return XMLData;
     }
-
+    /*
+        The method writes data into file
+        IN  - "data" file content, String
+            - "fileName" file full name to be written
+        OUT -
+    */
     private static void writeUsingBufferedWriter(String data, String fileName) {
         File file = new File(fileName);
         FileWriter fr = null;
